@@ -1,0 +1,74 @@
+{
+  "cities": [
+    {
+      "id": 1,
+      "cityNameAr": "القاهرة",
+      "cityNameEn": "Cairo",
+      "lat": 30.0444,
+      "lon": 31.2357
+    },
+    {
+      "id": 2,
+      "cityNameAr": "دبي",
+      "cityNameEn": "Dubai",
+      "lat": 25.2048,
+      "lon": 55.2708
+    },
+    {
+      "id": 3,
+      "cityNameAr": "باريس",
+      "cityNameEn": "Paris",
+      "lat": 48.8566,
+      "lon": 2.3522
+    },
+    {
+      "id": 4,
+      "cityNameAr": "لندن",
+      "cityNameEn": "London",
+      "lat": 51.5074,
+      "lon": -0.1278
+    },
+    {
+      "id": 5,
+      "cityNameAr": "نيويورك",
+      "cityNameEn": "New York",
+      "lat": 40.7128,
+      "lon": -74.0060
+    },
+    {
+      "id": 6,
+      "cityNameAr": "طوكيو",
+      "cityNameEn": "Tokyo",
+      "lat": 35.6762,
+      "lon": 139.6503
+    },
+    {
+      "id": 7,
+      "cityNameAr": "سنغافورة",
+      "cityNameEn": "Singapore",
+      "lat": 1.3521,
+      "lon": 103.8198
+    },
+    {
+      "id": 8,
+      "cityNameAr": "ريو دي جانيرو",
+      "cityNameEn": "Rio de Janeiro",
+      "lat": -22.9068,
+      "lon": -43.1729
+    },
+    {
+      "id": 9,
+      "cityNameAr": "سيدني",
+      "cityNameEn": "Sydney",
+      "lat": -33.8688,
+      "lon": 151.2093
+    },
+    {
+      "id": 10,
+      "cityNameAr": "موسكو",
+      "cityNameEn": "Moscow",
+      "lat": 55.7558,
+      "lon": 37.6173
+    }
+  ]
+}

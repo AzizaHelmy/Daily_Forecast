@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dailyforecast.data.entity.DailyForecast
+import com.example.dailyforecast.data.source.local.CityList
 import com.example.dailyforecast.data.repository.DailyForecastRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +21,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
 
     init {
         viewModelScope.launch {
+            getCities()
             getCurrentWeather(lat = 30.0444, long = 31.2357) //todo:fake
         }
     }
@@ -37,6 +39,14 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         }
     }
 
+    private suspend fun getCities() {
+        tryToExecute(
+            function = { repository.getCities() },
+            onSuccess = ::onGetCitiesSuccess,
+            onError = ::onError
+        )
+    }
+
     private suspend fun getCurrentWeather(lat: Double, long: Double) {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
@@ -47,10 +57,17 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
     }
 
     private fun onGetCurrentWeatherSuccess(dailyForecast: DailyForecast) {
-        Log.e("TAG", "onGetCurrentWeatherSuccess:$dailyForecast ")
         _state.update { uiState ->
             uiState.copy(
-               weatherItems = dailyForecast.weatherList.toUiState()
+                weatherItems = dailyForecast.weatherList.toUiState()
+            )
+        }
+    }
+
+    private fun onGetCitiesSuccess(cities: CityList) {
+        _state.update { uiState ->
+            uiState.copy(
+                cities = cities.cities
             )
         }
     }
