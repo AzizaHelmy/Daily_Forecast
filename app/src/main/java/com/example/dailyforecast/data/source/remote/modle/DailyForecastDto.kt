@@ -32,7 +32,7 @@ data class WeatherItemDto(
     @SerializedName("visibility")
     val visibility: Int,
     @SerializedName("pop")
-    val pop: Int,
+    val pop: Double,
     @SerializedName("sys")
     val system: SystemDto,
     @SerializedName("dt_txt")
@@ -100,7 +100,7 @@ data class CityDto(
     @SerializedName("country")
     val country: String,
     @SerializedName("population")
-    val population: Int,
+    val population: Double,
     @SerializedName("timezone")
     val timezone: Int,
     @SerializedName("sunrise")

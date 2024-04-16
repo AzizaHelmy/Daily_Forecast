@@ -1,6 +1,6 @@
 package com.example.dailyforecast.ui.screen
 
-import com.example.dailyforecast.data.source.local.City
+import com.example.dailyforecast.data.source.local.CityEntity
 
 /**
  * Created by Aziza Helmy on 4/16/2024.
@@ -9,7 +9,7 @@ data class HomeUiState(
     val isLoading: Boolean = false,
     val error: String = "",
     val weatherItems: List<WeatherItemUiState> = emptyList(),
-    val cities: List<City> = emptyList()
+    val cities: List<CityEntity> = emptyList()
 )
 
 data class WeatherItemUiState(

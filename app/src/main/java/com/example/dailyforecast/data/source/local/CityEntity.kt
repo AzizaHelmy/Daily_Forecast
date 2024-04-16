@@ -4,9 +4,9 @@ package com.example.dailyforecast.data.source.local
  * Created by Aziza Helmy on 4/16/2024.
  */
 data class CityList(
-    val cities: List<City>
+    val cities: List<CityEntity>
 )
-data class City(
+data class CityEntity(
     val id: Int,
     val cityNameAr: String,
     val cityNameEn: String,

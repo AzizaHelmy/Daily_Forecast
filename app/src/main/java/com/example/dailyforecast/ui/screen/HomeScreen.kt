@@ -3,16 +3,19 @@ package com.example.dailyforecast.ui.screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -29,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -41,13 +45,13 @@ import org.koin.compose.koinInject
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
     val state by viewModel.state.collectAsState()
-    HomeContent(state = state)
+    HomeContent(state = state, listener = viewModel)
 }
 
 @Composable
-private fun HomeContent(state: HomeUiState) {
+private fun HomeContent(state: HomeUiState, listener: HomeInteractionListener) {
     Column {
-        DropDown(state)
+        DropDown(state, listener)
         LazyColumn(
             modifier = Modifier.background(Color(0xFFF2F2F2)),
             contentPadding = PaddingValues(
@@ -55,8 +59,21 @@ private fun HomeContent(state: HomeUiState) {
                 vertical = 4.dp
             )
         ) {
-            itemsIndexed(items = state.weatherItems) { _, user ->
-                WeatherItem(user)
+            if (state.isLoading) {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(440.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+            } else {
+                itemsIndexed(items = state.weatherItems) { _, user ->
+                    WeatherItem(user)
+                }
             }
         }
     }
@@ -64,7 +81,8 @@ private fun HomeContent(state: HomeUiState) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDown(state: HomeUiState) {
+fun DropDown(state: HomeUiState, listener: HomeInteractionListener) {
+    val context = LocalContext.current
 
     var selectedText by remember {
         mutableStateOf(state.cities[0].cityNameAr)
@@ -98,7 +116,10 @@ fun DropDown(state: HomeUiState) {
                     DropdownMenuItem(
                         text = { Text(text = text.cityNameAr) },
                         onClick = {
-                            //todo: make a call
+                            listener.onCitySelected(
+                                state.cities[index].lat,
+                                state.cities[index].lon
+                            )
                             selectedText = state.cities[index].cityNameAr
                             isExpanded = false
                         },

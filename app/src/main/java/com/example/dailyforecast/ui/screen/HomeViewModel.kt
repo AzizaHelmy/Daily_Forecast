@@ -14,7 +14,8 @@ import kotlinx.coroutines.launch
 /**
  * Created by Aziza Helmy on 4/15/2024.
  */
-class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel() {
+class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel(),
+    HomeInteractionListener {
 
     private val _state = MutableStateFlow(HomeUiState())
     val state = _state.asStateFlow()
@@ -22,7 +23,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
     init {
         viewModelScope.launch {
             getCities()
-            getCurrentWeather(lat = 30.0444, long = 31.2357) //todo:fake
+            getCurrentWeather(lat = 30.0444, long = 31.2357) //todo:later ISA
         }
     }
 
@@ -40,6 +41,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
     }
 
     private suspend fun getCities() {
+        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             function = { repository.getCities() },
             onSuccess = ::onGetCitiesSuccess,
@@ -59,6 +61,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
     private fun onGetCurrentWeatherSuccess(dailyForecast: DailyForecast) {
         _state.update { uiState ->
             uiState.copy(
+                isLoading = false,
                 weatherItems = dailyForecast.weatherList.toUiState()
             )
         }
@@ -67,6 +70,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
     private fun onGetCitiesSuccess(cities: CityList) {
         _state.update { uiState ->
             uiState.copy(
+                isLoading = false,
                 cities = cities.cities
             )
         }
@@ -75,5 +79,12 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
     private fun onError(error: String) {
         Log.e("TAG", "onError:$error ")
         _state.update { it.copy(isLoading = false, error = error) }
+    }
+
+    override fun onCitySelected(lat:Double,long:Double) {
+        viewModelScope.launch {
+            Log.e("TAG", "onCitySelected:$lat == $long", )
+            getCurrentWeather(lat = lat, long = long)
+        }
     }
 }
