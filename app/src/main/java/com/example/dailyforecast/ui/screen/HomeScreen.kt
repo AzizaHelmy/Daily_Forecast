@@ -98,9 +98,11 @@ fun DropDown(state: HomeUiState) {
                     DropdownMenuItem(
                         text = { Text(text = text.cityNameAr) },
                         onClick = {
+                            //todo: make a call
                             selectedText = state.cities[index].cityNameAr
                             isExpanded = false
-                        }, contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                        },
+                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                     )
                 }
             }
