@@ -99,6 +99,7 @@ dependencies {
     kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
+    implementation (libs.gson)
     // coroutines
     implementation(libs.kotlinx.coroutines.android)
     // coil

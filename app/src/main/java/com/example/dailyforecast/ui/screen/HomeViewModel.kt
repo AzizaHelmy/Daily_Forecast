@@ -4,8 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dailyforecast.data.entity.DailyForecast
-import com.example.dailyforecast.data.source.local.CityList
+import com.example.dailyforecast.data.source.local.model.CityList
 import com.example.dailyforecast.data.repository.DailyForecastRepository
+import com.example.dailyforecast.data.source.local.model.WeatherEntity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -22,6 +23,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
 
     init {
         viewModelScope.launch {
+            getDB() //todo: fake for testing room if it works ok
             getCities()
             getCurrentWeather(lat = 30.0444, long = 31.2357) //todo:later ISA
         }
@@ -40,6 +42,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         }
     }
 
+
     private suspend fun getCities() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
@@ -47,6 +50,12 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
             onSuccess = ::onGetCitiesSuccess,
             onError = ::onError
         )
+    }
+    //todo: fake for testing room if it works ok
+    private suspend fun getDB() {
+        viewModelScope.launch {
+            repository.insertAllDailyForecastToDb(WeatherEntity(description = "fajr", icon = ""))
+        }
     }
 
     private suspend fun getCurrentWeather(lat: Double, long: Double) {
@@ -81,9 +90,9 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         _state.update { it.copy(isLoading = false, error = error) }
     }
 
-    override fun onCitySelected(lat:Double,long:Double) {
+    override fun onCitySelected(lat: Double, long: Double) {
         viewModelScope.launch {
-            Log.e("TAG", "onCitySelected:$lat == $long", )
+            Log.e("TAG", "onCitySelected:$lat == $long")
             getCurrentWeather(lat = lat, long = long)
         }
     }
