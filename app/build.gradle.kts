@@ -1,7 +1,15 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     kotlin("kapt")
+}
+
+val credentialsFile = rootProject.file("secret.properties")
+val credentialsProperties = Properties().apply {
+    load(FileInputStream(credentialsFile))
 }
 
 android {
@@ -14,6 +22,12 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField(
+            "String",
+            "API_KEY",
+            credentialsProperties["API_KEY"] as String
+        )
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -39,6 +53,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildFeatures.buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
