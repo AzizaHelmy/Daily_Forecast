@@ -28,7 +28,11 @@ android {
             "API_KEY",
             credentialsProperties["API_KEY"] as String
         )
-
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
