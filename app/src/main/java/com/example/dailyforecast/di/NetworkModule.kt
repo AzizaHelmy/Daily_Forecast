@@ -1,6 +1,7 @@
 package com.example.dailyforecast.di
 
 import com.example.dailyforecast.data.source.remote.network.DailyForecastService
+import com.example.dailyforecast.data.utils.Constant
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -16,7 +17,7 @@ val networkModule = module {
 
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://api.openweathermap.org/")
+            .baseUrl(Constant.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create()).build()
     }

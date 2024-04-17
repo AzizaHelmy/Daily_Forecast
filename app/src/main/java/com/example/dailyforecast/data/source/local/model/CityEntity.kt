@@ -1,4 +1,4 @@
-package com.example.dailyforecast.data.source.local
+package com.example.dailyforecast.data.source.local.model
 
 /**
  * Created by Aziza Helmy on 4/16/2024.

@@ -1,7 +1,7 @@
 package com.example.dailyforecast.data.repository
 
 import com.example.dailyforecast.data.entity.DailyForecast
-import com.example.dailyforecast.data.source.local.CityList
+import com.example.dailyforecast.data.source.local.model.CityList
 
 /**
  * Created by Aziza Helmy on 4/15/2024.
