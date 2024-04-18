@@ -24,7 +24,8 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
 
     init {
         viewModelScope.launch {
-            getDB() //todo: fake for testing room if it works ok
+            saveDataToDB() //todo: fake for testing room if it works ok
+            getDataFromDB()
             getCities()
             getCurrentWeather(lat = 30.0444, long = 31.2357) //todo:later ISA
         }
@@ -52,38 +53,44 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
             onError = ::onError
         )
     }
+
     //todo: fake for testing room if it works ok
-    private suspend fun getDB() {
+    private suspend fun saveDataToDB() {
         viewModelScope.launch {
-          repository.insertAllDailyForecastToDb(
-              listOf(
-                  WeatherItem(
-                      main = WeatherInfo(
-                          temp = 30.0,
-                          feelsLike = 30.0,
-                          tempMin = 30.0,
-                          tempMax = 30.0,
-                          pressure = 30,
-                          seaLevel = 30,
-                          grndLevel = 30,
-                          humidity = 30,
-                          tempKf = 30.0
-                      ),
-                      weather = listOf(
-                          Weather(
-                              id = 0,
-                              description = "description",
-                              icon = "icon"
-                          )
-                      ),
-                      dateText = "dateText",
-                      cloud = 0,
-                      windSpeed = 0.0
-                  )
-              )
-          )
+            repository.insertAllDailyForecastToDb(
+                listOf(
+                    WeatherItem(
+                        main = WeatherInfo(
+                            temp = 30.0,
+                            feelsLike = 30.0,
+                            tempMin = 30.0,
+                            tempMax = 30.0,
+                            pressure = 30,
+                            seaLevel = 30,
+                            grndLevel = 30,
+                            humidity = 30,
+                            tempKf = 30.0
+                        ),
+                        weather = listOf(
+                            Weather(
+                                id = 0,
+                                description = "description",
+                                icon = "icon"
+                            )
+                        ),
+                        dateText = "dateText",
+                        cloud = 0,
+                        windSpeed = 0.0
+                    )
+                )
+            )
+        }
+    }
+
+    private suspend fun getDataFromDB() {
+        viewModelScope.launch {
             repository.getAllDailyForecastFromDb()
-            Log.e("TAG", "getDB:${  repository.getAllDailyForecastFromDb()} ", )
+            Log.e("TAG", "getDB:${repository.getAllDailyForecastFromDb()} ")
         }
     }
 
@@ -96,7 +103,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         )
     }
 
-    private fun onGetCurrentWeatherSuccess(dailyForecast: List<WeatherItem>){
+    private fun onGetCurrentWeatherSuccess(dailyForecast: List<WeatherItem>) {
         _state.update { uiState ->
             uiState.copy(
                 isLoading = false,

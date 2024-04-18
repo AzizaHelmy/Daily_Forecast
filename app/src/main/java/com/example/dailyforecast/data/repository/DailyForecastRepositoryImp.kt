@@ -3,11 +3,11 @@ package com.example.dailyforecast.data.repository
 import android.app.Application
 import android.content.Context
 import com.example.dailyforecast.data.entity.WeatherItem
-import com.example.dailyforecast.data.entity.toEntity
-import com.example.dailyforecast.data.entity.toModel
+import com.example.dailyforecast.data.entity.toLocalEntity
 import com.example.dailyforecast.data.source.local.database.DailyForecastDao
 import com.example.dailyforecast.data.source.local.model.CityList
-import com.example.dailyforecast.data.source.local.model.toLocalEntity
+import com.example.dailyforecast.data.source.local.model.toEntity
+import com.example.dailyforecast.data.source.remote.modle.toEntity
 import com.example.dailyforecast.data.source.remote.network.DailyForecastService
 import com.example.dailyforecast.data.utils.Constant
 import com.google.gson.Gson
@@ -26,16 +26,14 @@ class DailyForecastRepositoryImp(
         return dailyForecastService.getCurrentWeather(lat, long).toEntity()
     }
 
-    //todo:it's fake just for testing
     override suspend fun insertAllDailyForecastToDb(dailyForecast: List<WeatherItem>) {
         diaDailyForecastLocalDb.insertAllDailyForecastToDb(
             dailyForecast.toLocalEntity()
         )
     }
 
-    //todo:it's fake just for testing
     override suspend fun getAllDailyForecastFromDb(): List<WeatherItem> {
-        return diaDailyForecastLocalDb.getAllDailyForecastFromDb().toModel()
+        return diaDailyForecastLocalDb.getAllDailyForecastFromDb().toEntity()
     }
 
     override suspend fun getCities(): CityList {
