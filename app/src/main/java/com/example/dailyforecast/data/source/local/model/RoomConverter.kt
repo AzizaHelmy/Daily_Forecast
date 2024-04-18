@@ -9,33 +9,6 @@ import java.util.Collections
  * Created by Aziza Helmy on 4/17/2024.
  */
 class RoomConverter {
-    /*
-    @TypeConverter
-    fun listOfDailyForecastToJson(value: List<DailyForecastEntity>): String = Gson().toJson(value)
-
-    @TypeConverter
-    fun gsonToDailyForecastList(value: String) =
-        Gson().fromJson(value, Array<DailyForecastEntity>::class.java).toList()
-}*/
-    @TypeConverter
-    fun fromWeatherItemList(value: List<WeatherItemEntity>?): String {
-        if (value == null) {
-            return ""
-        }
-        val gson = Gson()
-        val type = object : TypeToken<List<WeatherItemEntity>>() {}.type
-        return gson.toJson(value, type)
-    }
-
-    @TypeConverter
-    fun toWeatherItemList(value: String): List<WeatherItemEntity>? {
-        if (value.isEmpty()) {
-            return Collections.emptyList()
-        }
-        val gson = Gson()
-        val type = object : TypeToken<List<WeatherItemEntity>>() {}.type
-        return gson.fromJson(value, type)
-    }
 
         @TypeConverter
         fun fromWeatherEntityList(value: List<WeatherEntity>?): String {
