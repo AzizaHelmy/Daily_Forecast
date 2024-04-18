@@ -15,5 +15,5 @@ interface DailyForecastService {
         @Query("lat") lat: Double,
         @Query("lon") long: Double,
         @Query("appid") appId: String =  BuildConfig.API_KEY
-    ):List<WeatherItemDto>
+    ):DailyForecastDto
 }
