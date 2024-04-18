@@ -3,10 +3,11 @@ package com.example.dailyforecast.ui.screen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dailyforecast.data.entity.DailyForecast
-import com.example.dailyforecast.data.source.local.model.CityList
+import com.example.dailyforecast.data.entity.Weather
+import com.example.dailyforecast.data.entity.WeatherInfo
+import com.example.dailyforecast.data.entity.WeatherItem
 import com.example.dailyforecast.data.repository.DailyForecastRepository
-import com.example.dailyforecast.data.source.local.model.WeatherEntity
+import com.example.dailyforecast.data.source.local.model.CityList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -54,7 +55,35 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
     //todo: fake for testing room if it works ok
     private suspend fun getDB() {
         viewModelScope.launch {
-            repository.insertAllDailyForecastToDb(WeatherEntity(description = "fajr", icon = ""))
+          repository.insertAllDailyForecastToDb(
+              listOf(
+                  WeatherItem(
+                      main = WeatherInfo(
+                          temp = 30.0,
+                          feelsLike = 30.0,
+                          tempMin = 30.0,
+                          tempMax = 30.0,
+                          pressure = 30,
+                          seaLevel = 30,
+                          grndLevel = 30,
+                          humidity = 30,
+                          tempKf = 30.0
+                      ),
+                      weather = listOf(
+                          Weather(
+                              id = 0,
+                              description = "description",
+                              icon = "icon"
+                          )
+                      ),
+                      dateText = "dateText",
+                      cloud = 0,
+                      windSpeed = 0.0
+                  )
+              )
+          )
+            repository.getAllDailyForecastFromDb()
+            Log.e("TAG", "getDB:${  repository.getAllDailyForecastFromDb()} ", )
         }
     }
 
@@ -67,11 +96,11 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         )
     }
 
-    private fun onGetCurrentWeatherSuccess(dailyForecast: DailyForecast) {
+    private fun onGetCurrentWeatherSuccess(dailyForecast: List<WeatherItem>){
         _state.update { uiState ->
             uiState.copy(
                 isLoading = false,
-                weatherItems = dailyForecast.weatherList.toUiState()
+                weatherItems = dailyForecast.toUiState()
             )
         }
     }

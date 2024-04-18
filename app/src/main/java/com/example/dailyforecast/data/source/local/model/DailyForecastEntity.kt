@@ -1,30 +1,41 @@
 package com.example.dailyforecast.data.source.local.model
 
+import androidx.annotation.NonNull
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.dailyforecast.data.source.remote.modle.DailyForecastDto
-import com.example.dailyforecast.data.source.remote.modle.WeatherDto
-import com.example.dailyforecast.data.source.remote.modle.WeatherInfoDto
-import com.example.dailyforecast.data.source.remote.modle.WeatherItemDto
-import com.example.dailyforecast.data.source.remote.modle.WindDto
+import androidx.room.Relation
+import com.example.dailyforecast.data.entity.Weather
+import com.example.dailyforecast.data.entity.WeatherInfo
+import com.example.dailyforecast.data.entity.WeatherItem
 
 /**
  * Created by Aziza Helmy on 4/16/2024.
  */
 
-//@Entity(tableName = "dailyForecast")
+@Entity(tableName = "dailyForecast")
 data class DailyForecastEntity(
-    //  @PrimaryKey(autoGenerate = true) @NonNull
+    @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val weatherList: List<WeatherItemEntity>
 )
-
-
+data class DailyForecastWithWeatherItems(
+    @Embedded
+    val dailyForecast: DailyForecastEntity,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "forecastId"
+    )
+    val weatherItems: List<WeatherItemEntity>
+)
 data class WeatherItemEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val forecastId: Int, // new field
     val main: WeatherInfoEntity,
     val weather: List<WeatherEntity>,
-    val clouds: CloudEntity,
-    val wind: WindEntity,
+    val cloud: Int,
+    val windSpeed: Double,
     val dateText: String
 )
 
@@ -40,43 +51,34 @@ data class WeatherInfoEntity(
     val tempKf: Double
 )
 
-data class CloudEntity(
-    val all: Int
-)
 
-data class WindEntity(
-    val speed: Double
-)
-
-@Entity(tableName = "weather")
+//@Entity(tableName = "weather")
 data class WeatherEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int=0,
+   // @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val description: String,
     val icon: String
 )
 
-fun DailyForecastDto.toLocalEntity(): DailyForecastEntity {
-    return DailyForecastEntity(
-        weatherList = weatherList.toEntity()
-    )
+fun List<WeatherItem>.toLocalEntity(): List<WeatherItemEntity> {
+    return map { it.toEntity() }
 }
 
-fun WeatherItemDto.toEntity(): WeatherItemEntity {
+fun WeatherItem.toEntity(): WeatherItemEntity {
     return WeatherItemEntity(
         main = main.toEntity(),
         weather = weather.map { it.toLocalEntity() },
-        clouds = CloudEntity(clouds.all),
-        wind = wind.toEntity(),
+        cloud = cloud,
+        windSpeed = windSpeed,
         dateText = dateText
     )
 }
 
-fun List<WeatherItemDto>.toEntity(): List<WeatherItemEntity> {
+fun List<WeatherItem>.toEntity(): List<WeatherItemEntity> {
     return map { it.toEntity() }
 }
 
-fun WeatherInfoDto.toEntity(): WeatherInfoEntity {
+fun WeatherInfo.toEntity(): WeatherInfoEntity {
     return WeatherInfoEntity(
         temp = temp,
         feelsLike = feelsLike,
@@ -90,17 +92,11 @@ fun WeatherInfoDto.toEntity(): WeatherInfoEntity {
     )
 }
 
-fun WeatherDto.toLocalEntity(): WeatherEntity {
+fun Weather.toLocalEntity(): WeatherEntity {
     return WeatherEntity(
         id = id,
         description = description,
         icon = icon
-    )
-}
-
-fun WindDto.toEntity(): WindEntity {
-    return WindEntity(
-        speed = speed
     )
 }
 

@@ -2,6 +2,7 @@ package com.example.dailyforecast.data.source.remote.network
 
 import com.example.dailyforecast.BuildConfig
 import com.example.dailyforecast.data.source.remote.modle.DailyForecastDto
+import com.example.dailyforecast.data.source.remote.modle.WeatherItemDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,5 +15,5 @@ interface DailyForecastService {
         @Query("lat") lat: Double,
         @Query("lon") long: Double,
         @Query("appid") appId: String =  BuildConfig.API_KEY
-    ):DailyForecastDto
+    ):List<WeatherItemDto>
 }
