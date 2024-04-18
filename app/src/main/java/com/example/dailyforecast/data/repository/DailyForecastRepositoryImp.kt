@@ -22,8 +22,12 @@ class DailyForecastRepositoryImp(
     private val diaDailyForecastLocalDb: DailyForecastDao
 ) :
     DailyForecastRepository {
-    override suspend fun getCurrentWeather(lat: Double, long: Double): List<WeatherItem> {
+    override suspend fun getWeatherFromRemote(lat: Double, long: Double): List<WeatherItem> {
         return dailyForecastService.getCurrentWeather(lat, long).toEntity()
+    }
+
+    override suspend fun getWeather() {
+    insertAllDailyForecastToDb(getWeatherFromRemote(30.0444, 31.2357))
     }
 
     override suspend fun insertAllDailyForecastToDb(dailyForecast: List<WeatherItem>) {
