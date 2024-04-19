@@ -1,8 +1,6 @@
 package com.example.dailyforecast.ui.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,34 +8,24 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
 import com.example.dailyforecast.R
+import com.example.dailyforecast.ui.screen.compsable.DropDown
+import com.example.dailyforecast.ui.screen.compsable.ErrorAndRetry
+import com.example.dailyforecast.ui.screen.compsable.SnackBar
+import com.example.dailyforecast.ui.screen.compsable.WeatherItem
 import org.koin.compose.koinInject
 
 
@@ -103,115 +91,6 @@ private fun HomeContent(state: HomeUiState, listener: HomeInteractionListener) {
     }
 }
 
-@Composable
-fun ErrorAndRetry(listener: HomeInteractionListener) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 24.dp, bottom = 8.dp)
-    ) {
-        Text(text = "Couldn't Fetch data")
-        Button(onClick = { listener.onRetryClicked() }) {
-            Text(text = "Retry")
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DropDown(state: HomeUiState, listener: HomeInteractionListener) {
-
-    var selectedText by remember {
-        mutableStateOf(state.cities[0].cityNameAr)
-    }
-    var isExpanded by remember {
-        mutableStateOf(false)
-    }
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 24.dp, bottom = 8.dp)
-    ) {
-        ExposedDropdownMenuBox(
-            expanded = isExpanded,
-            onExpandedChange = { isExpanded = !isExpanded }) {
-
-            TextField(
-                modifier = Modifier.menuAnchor(),
-                value = selectedText,
-                onValueChange = {},
-                readOnly = true,
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(
-                        expanded = isExpanded
-                    )
-                })
-
-            ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
-                state.cities.forEachIndexed { index, text ->
-                    DropdownMenuItem(
-                        text = { Text(text = text.cityNameAr) },
-                        onClick = {
-                            listener.onCitySelected(
-                                state.cities[index].lat,
-                                state.cities[index].lon
-                            )
-                            selectedText = state.cities[index].cityNameAr
-                            isExpanded = false
-                        },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun WeatherItem(state: WeatherItemUiState) {
-    Card(
-        shape = RoundedCornerShape(15.dp),
-        modifier = Modifier
-            .padding(8.dp)
-    ) {
-
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceEvenly,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painter = rememberAsyncImagePainter(model = state.weatherIcon),
-                contentDescription = "",
-                modifier = Modifier
-                    .padding(16.dp)
-                    .size(20.dp)
-                    .clip(
-                        shape = RoundedCornerShape(
-                            topStart = 16.dp,
-                            topEnd = 0.dp,
-                            bottomStart = 16.dp,
-                            bottomEnd = 16.dp
-                        )
-                    )
-            )
-            Text(
-                text = state.temperature,
-                modifier = Modifier
-                    .padding(8.dp)
-            )
-
-            Text(
-                text = state.weatherDescription,
-                modifier = Modifier.padding(top = 4.dp, bottom = 8.dp)
-            )
-        }
-    }
-
-}
 
 @Preview
 @Composable

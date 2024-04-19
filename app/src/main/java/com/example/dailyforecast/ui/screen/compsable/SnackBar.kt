@@ -1,4 +1,4 @@
-package com.example.dailyforecast.ui.screen
+package com.example.dailyforecast.ui.screen.compsable
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
