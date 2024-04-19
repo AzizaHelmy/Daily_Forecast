@@ -32,10 +32,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.example.dailyforecast.R
 import org.koin.compose.koinInject
 
 
@@ -50,31 +51,52 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
 
 @Composable
 private fun HomeContent(state: HomeUiState, listener: HomeInteractionListener) {
-    Column {
-        DropDown(state, listener)
-        LazyColumn(
-            modifier = Modifier.background(Color(0xFFF2F2F2)),
-            contentPadding = PaddingValues(
-                horizontal = 16.dp,
-                vertical = 4.dp
-            )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFF2F2F2)),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp)
         ) {
-            if (state.isLoading) {
-                item {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(440.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
+            DropDown(state, listener)
+            LazyColumn(
+                contentPadding = PaddingValues(
+                    horizontal = 16.dp,
+                    vertical = 4.dp
+                )
+            ) {
+                if (state.isLoading) {
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(440.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    }
+                } else {
+                    itemsIndexed(items = state.weatherItems) { _, user ->
+                        WeatherItem(user)
                     }
                 }
-            } else {
-                itemsIndexed(items = state.weatherItems) { _, user ->
-                    WeatherItem(user)
-                }
             }
+        }
+        SnackBar(
+            icon = painterResource(R.drawable.ic_android),
+            isVisible = state.showSnackBar,
+            modifier = Modifier
+                .padding(bottom = 16.dp)
+                .align(Alignment.BottomCenter)
+        ) {
+            Text(
+                text = " it’s not accurate data !",
+            )
         }
     }
 }
@@ -82,7 +104,6 @@ private fun HomeContent(state: HomeUiState, listener: HomeInteractionListener) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropDown(state: HomeUiState, listener: HomeInteractionListener) {
-    val context = LocalContext.current
 
     var selectedText by remember {
         mutableStateOf(state.cities[0].cityNameAr)
@@ -128,7 +149,6 @@ fun DropDown(state: HomeUiState, listener: HomeInteractionListener) {
                 }
             }
         }
-        Text(text = "Current selected $selectedText", modifier = Modifier.padding(vertical = 16.dp))
     }
 }
 
