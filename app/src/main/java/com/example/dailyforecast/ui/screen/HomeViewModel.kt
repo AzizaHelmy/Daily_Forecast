@@ -27,6 +27,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
             getCurrentWeather(lat = 30.0444, long = 31.2357) //todo:later ISA
         }
     }
+
     private suspend fun <T> tryToExecute(
         function: suspend () -> T,
         onSuccess: suspend (T) -> Unit,
@@ -60,18 +61,21 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
     private suspend fun getCurrentWeather(lat: Double, long: Double) {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
-            shouldLaunchInIODispatcher = true,
-            function = { repository.getAllDailyForecastFromDb() },
-            onSuccess = { weatherItems ->
-                onGetCurrentWeatherSuccess(weatherItems)
-                _state.update { it.copy(showSnackBar = true) }
+            function = { repository.getWeatherFromRemote(lat, long) },
+            onSuccess = { dailyForecast ->
+                _state.update { it.copy(showSnackBar = false) }
+                repository.insertAllDailyForecastToDb(dailyForecast)
+                Log.e("TAG", "getCurrentWeather:yes remote ")
+                onGetCurrentWeatherSuccess(dailyForecast)
             },
             onError = {
                 tryToExecute(
-                    function = { repository.getWeatherFromRemote(lat, long) },
-                    onSuccess = { dailyForecast ->
-                        repository.insertAllDailyForecastToDb(dailyForecast)
-                        onGetCurrentWeatherSuccess(dailyForecast)
+                    shouldLaunchInIODispatcher = true,
+                    function = { repository.getAllDailyForecastFromDb() },
+                    onSuccess = { weatherItems ->
+                        Log.e("TAG", "getCurrentWeather:yes Local ")
+                        onGetCurrentWeatherSuccess(weatherItems)
+                        _state.update { it.copy(showSnackBar = true) }
                     },
                     onError = ::onError
                 )
@@ -79,26 +83,6 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         )
     }
 
-    /*    private suspend fun getCurrentWeather(lat: Double, long: Double) {
-            _state.update { it.copy(isLoading = true) }
-            tryToExecute(
-                function = { repository.getWeatherFromRemote(lat, long) },
-                onSuccess = { dailyForecast ->
-                    repository.insertAllDailyForecastToDb(dailyForecast)
-                    onGetCurrentWeatherSuccess(dailyForecast)
-                },
-                onError = {
-                    tryToExecute(
-                        function = { repository.getAllDailyForecastFromDb() },
-                        onSuccess = { weatherItems ->
-                            onGetCurrentWeatherSuccess(weatherItems)
-                            _state.update { it.copy(showSnackBar = true) }
-                        },
-                        onError = ::onError
-                    )
-                }
-            )
-        }*/
     private fun onGetCurrentWeatherSuccess(dailyForecast: List<WeatherItem>?) {
         if (dailyForecast != null) {
             _state.update { uiState ->
