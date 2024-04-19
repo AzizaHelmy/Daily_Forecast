@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.IGNORE
 import androidx.room.Query
-import com.example.dailyforecast.data.source.local.model.WeatherEntity
+import com.example.dailyforecast.data.source.local.model.WeatherItemEntity
 
 /**
  * Created by Aziza Helmy on 4/16/2024.
@@ -12,9 +12,9 @@ import com.example.dailyforecast.data.source.local.model.WeatherEntity
 @Dao
 interface DailyForecastDao {
     @Insert(onConflict = IGNORE)
-    suspend fun insertAllDailyForecastToDb(dailyForecast: WeatherEntity) //todo: add correct table
+    suspend fun insertAllDailyForecastToDb(dailyForecast: List<WeatherItemEntity>)
 
-    @Query("SELECT * FROM weather") //todo: change table later
-    fun getAllDailyForecastFromDb(): WeatherEntity
+    @Query("SELECT * FROM dailyForecast")
+    fun getAllDailyForecastFromDb(): List<WeatherItemEntity>
 
 }

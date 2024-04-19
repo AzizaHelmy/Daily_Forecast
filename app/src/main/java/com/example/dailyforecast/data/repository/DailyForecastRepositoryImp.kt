@@ -2,11 +2,12 @@ package com.example.dailyforecast.data.repository
 
 import android.app.Application
 import android.content.Context
-import com.example.dailyforecast.data.entity.DailyForecast
-import com.example.dailyforecast.data.entity.toEntity
+import com.example.dailyforecast.data.entity.WeatherItem
+import com.example.dailyforecast.data.entity.toLocalEntity
 import com.example.dailyforecast.data.source.local.database.DailyForecastDao
 import com.example.dailyforecast.data.source.local.model.CityList
-import com.example.dailyforecast.data.source.local.model.WeatherEntity
+import com.example.dailyforecast.data.source.local.model.toEntity
+import com.example.dailyforecast.data.source.remote.modle.toEntity
 import com.example.dailyforecast.data.source.remote.network.DailyForecastService
 import com.example.dailyforecast.data.utils.Constant
 import com.google.gson.Gson
@@ -21,19 +22,19 @@ class DailyForecastRepositoryImp(
     private val diaDailyForecastLocalDb: DailyForecastDao
 ) :
     DailyForecastRepository {
-    override suspend fun getCurrentWeather(lat: Double, long: Double): DailyForecast {
+
+    override suspend fun getWeatherFromRemote(lat: Double, long: Double): List<WeatherItem> {
         return dailyForecastService.getCurrentWeather(lat, long).toEntity()
     }
 
-    //todo:it's fake just for testing
-    override suspend fun insertAllDailyForecastToDb(dailyForecast: WeatherEntity) {
+    override suspend fun insertAllDailyForecastToDb(dailyForecast: List<WeatherItem>) {
         diaDailyForecastLocalDb.insertAllDailyForecastToDb(
-            WeatherEntity(description = dailyForecast.description, icon = ""))
+            dailyForecast.toLocalEntity()
+        )
     }
 
-    //todo:it's fake just for testing
-    override suspend fun getAllDailyForecastFromDb(): WeatherEntity {
-        return diaDailyForecastLocalDb.getAllDailyForecastFromDb()
+    override suspend fun getAllDailyForecastFromDb(): List<WeatherItem> {
+        return diaDailyForecastLocalDb.getAllDailyForecastFromDb().toEntity()
     }
 
     override suspend fun getCities(): CityList {
