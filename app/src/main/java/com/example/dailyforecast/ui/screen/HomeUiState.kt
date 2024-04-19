@@ -7,7 +7,7 @@ import com.example.dailyforecast.data.source.local.model.CityEntity
  */
 data class HomeUiState(
     val isLoading: Boolean = false,
-    val error: String = "",
+    val isError: Boolean = false,
     val showSnackBar: Boolean = false,
     val weatherItems: List<WeatherItemUiState> = emptyList(),
     val cities: List<CityEntity> = emptyList()

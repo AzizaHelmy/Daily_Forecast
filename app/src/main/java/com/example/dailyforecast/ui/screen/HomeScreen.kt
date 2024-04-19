@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
@@ -63,6 +64,7 @@ private fun HomeContent(state: HomeUiState, listener: HomeInteractionListener) {
                 .padding(vertical = 16.dp)
         ) {
             DropDown(state, listener)
+            if (state.isError) ErrorAndRetry(listener = listener)
             LazyColumn(
                 contentPadding = PaddingValues(
                     horizontal = 16.dp,
@@ -97,6 +99,22 @@ private fun HomeContent(state: HomeUiState, listener: HomeInteractionListener) {
             Text(
                 text = " it’s not accurate data !",
             )
+        }
+    }
+}
+
+@Composable
+fun ErrorAndRetry(listener: HomeInteractionListener) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 24.dp, bottom = 8.dp)
+    ) {
+        Text(text = "Couldn't Fetch data")
+        Button(onClick = { listener.onRetryClicked() }) {
+            Text(text = "Retry")
         }
     }
 }
