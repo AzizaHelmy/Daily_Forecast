@@ -24,7 +24,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
     init {
         viewModelScope.launch {
             getCities()
-            getCurrentWeather(lat = 30.0444, long = 31.2357) //todo:later ISA
+            getAllDailyForecast(lat = 30.0444, long = 31.2357) //todo:later ISA
         }
     }
 
@@ -58,15 +58,15 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         )
     }
 
-    private suspend fun getCurrentWeather(lat: Double, long: Double) {
+    private suspend fun getAllDailyForecast(lat: Double, long: Double) {
         _state.update { it.copy(isLoading = true,isError = false) }
         tryToExecute(
-            function = { repository.getWeatherFromRemote(lat, long) },
+            function = { repository.getAllDailyForecastFromRemote(lat, long) },
             onSuccess = { dailyForecast ->
                 _state.update { it.copy(showSnackBar = false) }
                 repository.insertAllDailyForecastToDb(dailyForecast)
                 Log.e("TAG", "getCurrentWeather:yes remote ")
-                onGetCurrentWeatherSuccess(dailyForecast)
+                onGetAllDailyForecastSuccess(dailyForecast)
             },
             onError = {
                 tryToExecute(
@@ -75,7 +75,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
                     onSuccess = { weatherItems ->
                         Log.e("TAG", "getCurrentWeather:yes Local ")
                         _state.update { it.copy(showSnackBar = true) }
-                        onGetCurrentWeatherSuccess(weatherItems)
+                        onGetAllDailyForecastSuccess(weatherItems)
                     },
                     onError = ::onError
                 )
@@ -83,7 +83,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         )
     }
 
-    private fun onGetCurrentWeatherSuccess(dailyForecast: List<WeatherItem>) {
+    private fun onGetAllDailyForecastSuccess(dailyForecast: List<WeatherItem>) {
         if (dailyForecast.isNotEmpty()) {
             _state.update { uiState ->
                 uiState.copy(
@@ -112,14 +112,14 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
 
     override fun onCitySelected(lat: Double, long: Double) {
         viewModelScope.launch {
-            getCurrentWeather(lat = lat, long = long)
+            getAllDailyForecast(lat = lat, long = long)
         }
     }
 
     override fun onRetryClicked() {
         _state.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            getCurrentWeather(lat = 30.0444, long = 31.2357) //todo:later ISA
+            getAllDailyForecast(lat = 30.0444, long = 31.2357) //todo:later ISA
         }
     }
 }
