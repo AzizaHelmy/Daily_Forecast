@@ -106,6 +106,10 @@ dependencies {
     testImplementation ("io.mockk:mockk:1.10.5")
     debugImplementation( "androidx.compose.ui:ui-test-manifest:1.1.0-alpha04")
     androidTestImplementation (libs.androidx.core.testing)
+    testImplementation (libs.mockito.core)
+    testImplementation (libs.mockito.kotlin)
+
+
     //Testing- junit5
     testImplementation(libs.junit.jupiter)
     //Koin Test
