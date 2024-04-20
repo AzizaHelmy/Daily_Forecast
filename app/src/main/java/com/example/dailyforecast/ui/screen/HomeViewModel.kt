@@ -49,7 +49,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         }
     }
 
-    private suspend fun getCities() {
+    suspend fun getCities() {
         _state.update { it.copy(isLoading = true,isError = false) }
         tryToExecute(
             function = { repository.getCities() },
@@ -58,7 +58,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         )
     }
 
-    private suspend fun getCurrentWeather(lat: Double, long: Double) {
+    suspend fun getCurrentWeather(lat: Double, long: Double) {
         _state.update { it.copy(isLoading = true,isError = false) }
         tryToExecute(
             function = { repository.getWeatherFromRemote(lat, long) },
