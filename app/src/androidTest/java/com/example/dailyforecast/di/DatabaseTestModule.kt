@@ -12,7 +12,6 @@ import org.koin.dsl.module
 /**
  * In-Memory Room Database definition
  */
-
 fun provideDataBase(application: Application): DailyForecastDataBase =
     Room.inMemoryDatabaseBuilder(
         application,
@@ -20,12 +19,8 @@ fun provideDataBase(application: Application): DailyForecastDataBase =
     ).allowMainThreadQueries()
         .build()
 
-//fun provideDao(dailyForecastDataBase: DailyForecastDataBase): DailyForecastDao =
-//    dailyForecastDataBase.getDailyForecastDao()
-
 
 val dataBaseTestModule = module {
     single { provideDataBase(get()) }
-   // single { provideDao(get()) }
 }
 
