@@ -15,7 +15,9 @@ val credentialsProperties = Properties().apply {
 android {
     namespace = "com.example.dailyforecast"
     compileSdk = 34
-
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
     defaultConfig {
         applicationId = "com.example.dailyforecast"
         minSdk = 24
@@ -33,6 +35,7 @@ android {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
         }
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -103,7 +106,8 @@ dependencies {
     testImplementation ("io.mockk:mockk:1.10.5")
     debugImplementation( "androidx.compose.ui:ui-test-manifest:1.1.0-alpha04")
     androidTestImplementation (libs.androidx.core.testing)
-
+    //Testing- junit5
+    testImplementation(libs.junit.jupiter)
     //Koin Test
     testImplementation (libs.koin.test.junit4)
     androidTestImplementation (libs.koin.test.junit5)
