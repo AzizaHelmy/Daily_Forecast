@@ -1,6 +1,5 @@
 package com.example.dailyforecast.data.repository
 
-import android.app.Application
 import android.content.Context
 import com.example.dailyforecast.data.entity.WeatherItem
 import com.example.dailyforecast.data.entity.toLocalEntity
@@ -16,8 +15,9 @@ import com.google.gson.reflect.TypeToken
 /**
  * Created by Aziza Helmy on 4/15/2024.
  */
+
 class DailyForecastRepositoryImp(
-    private val context: Application,
+    private val context: Context,
     private val dailyForecastService: DailyForecastService,
     private val diaDailyForecastLocalDb: DailyForecastDao
 ) :
