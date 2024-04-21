@@ -9,6 +9,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.example.dailyforecast.ui.screen.HomeInteractionListener
 
@@ -23,6 +26,7 @@ fun ErrorAndRetry(listener: HomeInteractionListener,modifier: Modifier = Modifie
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 24.dp, bottom = 8.dp)
+            .semantics { contentDescription = "errorAndRetry" }
     ) {
         Text(text = "Couldn't Fetch data", modifier = modifier.padding(top = 16.dp))
         Button(modifier = Modifier.padding(8.dp), onClick = { listener.onRetryClicked() }) {

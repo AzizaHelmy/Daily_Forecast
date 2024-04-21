@@ -14,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.dailyforecast.ui.screen.WeatherItemUiState
@@ -27,6 +29,7 @@ fun WeatherItem(state: WeatherItemUiState) {
         shape = RoundedCornerShape(15.dp),
         modifier = Modifier
             .padding(8.dp)
+            .semantics { contentDescription = "weatherItem" }
     ) {
 
         Column(
@@ -48,16 +51,20 @@ fun WeatherItem(state: WeatherItemUiState) {
                             bottomEnd = 16.dp
                         )
                     )
+                    .semantics { contentDescription = "weatherIcon" }
             )
             Text(
                 text = state.temperature,
                 modifier = Modifier
                     .padding(8.dp)
+                    .semantics { contentDescription = "temperatureText" }
             )
 
             Text(
                 text = state.weatherDescription,
-                modifier = Modifier.padding(top = 4.dp, bottom = 8.dp)
+                modifier = Modifier
+                    .padding(top = 4.dp, bottom = 8.dp)
+                    .semantics { contentDescription = "weatherDescriptionText" }
             )
         }
     }

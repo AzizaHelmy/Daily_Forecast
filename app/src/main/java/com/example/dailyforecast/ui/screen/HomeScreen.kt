@@ -19,6 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -55,6 +57,9 @@ private fun HomeContent(state: HomeUiState, listener: HomeInteractionListener) {
             DropDown(state, listener)
             if (state.isError) ErrorAndRetry(listener = listener)
             LazyColumn(
+                modifier = Modifier
+                    .semantics { contentDescription = "weatherList" }
+                    .fillMaxWidth(),
                 contentPadding = PaddingValues(
                     horizontal = 16.dp,
                     vertical = 4.dp
@@ -92,6 +97,7 @@ private fun HomeContent(state: HomeUiState, listener: HomeInteractionListener) {
         }
     }
 }
+
 
 
 @Preview
