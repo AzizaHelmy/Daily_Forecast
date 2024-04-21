@@ -23,7 +23,14 @@ class DailyForecastRepositoryImp(
         lat: Double,
         long: Double
     ): Pair<List<WeatherItem>, DailyForecastState> {
-        TODO("Not yet implemented")
+        val networkWeather = getDailyForecastFromNetwork(lat, long)
+
+        return if (networkWeather.isNotEmpty()) {
+            insertAllDailyForecastToLocal(networkWeather)
+            Pair(networkWeather, DailyForecastState.NETWORK)
+        } else {
+            Pair(networkWeather, DailyForecastState.DATABASE)
+        }
     }
 
     override suspend fun getDailyForecastFromNetwork(lat: Double, long: Double): List<WeatherItem> {

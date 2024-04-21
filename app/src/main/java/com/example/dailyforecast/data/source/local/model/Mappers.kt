@@ -52,8 +52,5 @@ fun CityEntity.toEntity(): City {
         lon = lon
     )
 }
-fun List<CityEntity>.toEntity(): List<City> {
-    return map { it.toEntity() }
-}
 
 
