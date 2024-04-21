@@ -24,17 +24,24 @@ class DailyForecastRepositoryImp(
         long: Double
     ): Pair<List<WeatherItem>, DailyForecastState> {
         val networkWeather = getDailyForecastFromNetwork(lat, long)
-
-        return if (networkWeather.isNotEmpty()) {
+        return if (!networkWeather.isNullOrEmpty()) {
             insertAllDailyForecastToLocal(networkWeather)
             Pair(networkWeather, DailyForecastState.NETWORK)
         } else {
-            Pair(networkWeather, DailyForecastState.DATABASE)
+            val localWeather = getAllDailyForecastFromLocal()
+            Pair(localWeather, DailyForecastState.DATABASE)
         }
     }
 
-    override suspend fun getDailyForecastFromNetwork(lat: Double, long: Double): List<WeatherItem> {
-        return dailyForecastService.getDailyForecast(lat, long).toEntity()
+    override suspend fun getDailyForecastFromNetwork(
+        lat: Double,
+        long: Double
+    ): List<WeatherItem>? {
+        return try {
+            dailyForecastService.getDailyForecast(lat, long).toEntity()
+        } catch (e: Exception) {
+            null
+        }
     }
 
     override suspend fun insertAllDailyForecastToLocal(dailyForecast: List<WeatherItem>) {

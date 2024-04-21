@@ -89,7 +89,8 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         _state.update { uiState ->
             uiState.copy(
                 isLoading = false,
-                cities = cities.map { it.toUiState() }
+                cities = cities.map { it.toUiState() },
+                selectedCity = cities.first().cityNameEn
             )
         }
     }
@@ -99,17 +100,14 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         _state.update { it.copy(isLoading = false, isError = true, showSnackBar = false) }
     }
 
-    override fun onCitySelected(lat: Double, long: Double) {
-        viewModelScope.launch {
+    override fun onCitySelected(lat: Double, long: Double, cityName: String) {
             getDailyForecast(lat = lat, long = long)
-        }
+            _state.update { it.copy(selectedCity = cityName) }
     }
 
     override fun onRetryClicked() {
         _state.update { it.copy(isLoading = true) }
-        viewModelScope.launch {
             getDailyForecast(lat = 30.0444, long = 31.2357) //todo:later ISA
-        }
     }
 
     /**
@@ -121,7 +119,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         onError: (String) -> Unit,
     ) {
         try {
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 val result = function()
                 onSuccess(result)
             }

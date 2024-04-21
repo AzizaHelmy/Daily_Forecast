@@ -9,7 +9,7 @@ import com.example.dailyforecast.data.utils.DailyForecastState
  */
 interface DailyForecastRepository {
     suspend fun getDailyForecast(lat: Double, long: Double): Pair<List<WeatherItem>,DailyForecastState>
-    suspend fun getDailyForecastFromNetwork(lat: Double, long: Double): List<WeatherItem>
+    suspend fun getDailyForecastFromNetwork(lat: Double, long: Double): List<WeatherItem>?
     suspend fun insertAllDailyForecastToLocal(dailyForecast: List<WeatherItem>)
     suspend fun getAllDailyForecastFromLocal(): List<WeatherItem>
     suspend fun getCities(): List<City>
