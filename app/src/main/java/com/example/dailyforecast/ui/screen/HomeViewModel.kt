@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dailyforecast.data.entity.WeatherItem
 import com.example.dailyforecast.data.repository.DailyForecastRepository
-import com.example.dailyforecast.data.source.local.model.CityList
+import com.example.dailyforecast.data.source.local.model.Cities
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -61,17 +61,17 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
     private suspend fun getAllDailyForecast(lat: Double, long: Double) {
         _state.update { it.copy(isLoading = true,isError = false) }
         tryToExecute(
-            function = { repository.getAllDailyForecastFromRemote(lat, long) },
+            function = { repository.getDailyForecastFromNetwork(lat, long) },
             onSuccess = { dailyForecast ->
                 _state.update { it.copy(showSnackBar = false) }
-                repository.insertAllDailyForecastToDb(dailyForecast)
+                repository.insertAllDailyForecastToLocal(dailyForecast)
                 Log.e("TAG", "getCurrentWeather:yes remote ")
                 onGetAllDailyForecastSuccess(dailyForecast)
             },
             onError = {
                 tryToExecute(
                     shouldLaunchInIODispatcher = true,
-                    function = { repository.getAllDailyForecastFromDb() },
+                    function = { repository.getAllDailyForecastFromLocal() },
                     onSuccess = { weatherItems ->
                         Log.e("TAG", "getCurrentWeather:yes Local ")
                         _state.update { it.copy(showSnackBar = true) }
@@ -96,7 +96,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         }
     }
 
-    private fun onGetCitiesSuccess(cities: CityList) {
+    private fun onGetCitiesSuccess(cities: Cities) {
         _state.update { uiState ->
             uiState.copy(
                 isLoading = false,

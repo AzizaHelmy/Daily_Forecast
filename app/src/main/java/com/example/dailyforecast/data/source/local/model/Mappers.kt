@@ -1,5 +1,6 @@
 package com.example.dailyforecast.data.source.local.model
 
+import com.example.dailyforecast.data.entity.City
 import com.example.dailyforecast.data.entity.Weather
 import com.example.dailyforecast.data.entity.WeatherInfo
 import com.example.dailyforecast.data.entity.WeatherItem
@@ -9,7 +10,7 @@ import com.example.dailyforecast.data.entity.WeatherItem
  */
 fun WeatherItemEntity.toEntity(): WeatherItem {
     return WeatherItem(
-        main = main.toEntity(),
+        weatherInfo = weatherInfo.toEntity(),
         weather = weather.map { it.toEntity() },
         cloud =cloud,
         windSpeed = windSpeed,
@@ -23,15 +24,15 @@ fun List<WeatherItemEntity>.toEntity(): List<WeatherItem> {
 
 fun WeatherInfoEntity.toEntity(): WeatherInfo {
     return WeatherInfo(
-        temp = temp,
-        feelsLike = feelsLike,
-        tempMin = tempMin,
-        tempMax = tempMax,
+        temperature = temperature,
+        feelsTemperature = feelsTemperature,
+        minimTemperature = minimTemperature,
+        maximumTemperature = maximumTemperature,
         pressure = pressure,
         seaLevel = seaLevel,
-        grndLevel = grndLevel,
+        grandLevel = grandLevel,
         humidity = humidity,
-        tempKf = tempKf
+        kelvinTemperature = kelvinTemperature
     )
 }
 
@@ -40,6 +41,15 @@ fun WeatherEntity.toEntity(): Weather {
         id = id,
         description = description,
         icon = icon
+    )
+}
+fun CityEntity.toEntity(): City {
+    return City(
+        id = id,
+        cityNameAr = cityNameAr,
+        cityNameEn = cityNameEn,
+        lat = lat,
+        lon = lon
     )
 }
 

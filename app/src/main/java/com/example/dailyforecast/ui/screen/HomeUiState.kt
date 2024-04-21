@@ -12,7 +12,13 @@ data class HomeUiState(
     val weatherItems: List<WeatherItemUiState> = emptyList(),
     val cities: List<CityEntity> = emptyList()
 )
-
+data class CityUiState(
+    val id: Int = 0,
+    val cityNameAr: String = "",
+    val cityNameEn: String = "",
+    val lat: Double = 0.0,
+    val lon: Double = 0.0
+)
 data class WeatherItemUiState(
     val city: String = "",
     val weatherDescription: String = "",

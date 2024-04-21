@@ -1,4 +1,4 @@
-package com.example.dailyforecast.data.source.remote.modle
+package com.example.dailyforecast.data.source.remote.model
 
 import com.example.dailyforecast.data.entity.Weather
 import com.example.dailyforecast.data.entity.WeatherInfo
@@ -14,7 +14,7 @@ fun DailyForecastDto.toEntity(): List<WeatherItem> {
 
 fun WeatherItemDto.toEntity(): WeatherItem {
     return WeatherItem(
-        main = main.toEntity(),
+        weatherInfo = main.toEntity(),
         weather = weather.map { it.toEntity() },
         cloud = clouds.all,
         windSpeed = wind.speed,
@@ -23,15 +23,15 @@ fun WeatherItemDto.toEntity(): WeatherItem {
 }
 fun WeatherInfoDto.toEntity(): WeatherInfo {
     return WeatherInfo(
-        temp = temp,
-        feelsLike = feelsLike,
-        tempMin = tempMin,
-        tempMax = tempMax,
+        temperature = temp,
+        feelsTemperature = feelsLike,
+        minimTemperature = tempMin,
+        maximumTemperature = tempMax,
         pressure = pressure,
         seaLevel = seaLevel,
-        grndLevel = grndLevel,
+        grandLevel = grndLevel,
         humidity = humidity,
-        tempKf = tempKf
+        kelvinTemperature = tempKf
     )
 }
 

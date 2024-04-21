@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
 data class WeatherItemEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val main: WeatherInfoEntity,
+    val weatherInfo: WeatherInfoEntity,
     val weather: List<WeatherEntity>,
     val cloud: Int,
     val windSpeed: Double,
@@ -19,15 +19,15 @@ data class WeatherItemEntity(
 )
 
 data class WeatherInfoEntity(
-    val temp: Double,
-    val feelsLike: Double,
-    val tempMin: Double,
-    val tempMax: Double,
+    val temperature: Double,
+    val feelsTemperature: Double,
+    val minimTemperature: Double,
+    val maximumTemperature: Double,
     val pressure: Int,
     val seaLevel: Int,
-    val grndLevel: Int,
+    val grandLevel: Int,
     val humidity: Int,
-    val tempKf: Double
+    val kelvinTemperature: Double
 )
 
 data class WeatherEntity(
