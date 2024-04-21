@@ -1,15 +1,17 @@
 package com.example.dailyforecast.data.repository
 
+import com.example.dailyforecast.data.entity.City
 import com.example.dailyforecast.data.entity.WeatherItem
-import com.example.dailyforecast.data.source.local.model.CityList
+import com.example.dailyforecast.data.utils.DailyForecastState
 
 /**
  * Created by Aziza Helmy on 4/15/2024.
  */
 interface DailyForecastRepository {
-    suspend fun getWeatherFromRemote(lat: Double, long: Double): List<WeatherItem>
-    suspend fun insertAllDailyForecastToDb(dailyForecast: List<WeatherItem>)
-    suspend fun getAllDailyForecastFromDb():List<WeatherItem>
-    suspend fun getCities(): CityList
+    suspend fun getDailyForecast(lat: Double, long: Double): Pair<List<WeatherItem>,DailyForecastState>
+    suspend fun getDailyForecastFromNetwork(lat: Double, long: Double): List<WeatherItem>
+    suspend fun insertAllDailyForecastToLocal(dailyForecast: List<WeatherItem>)
+    suspend fun getAllDailyForecastFromLocal(): List<WeatherItem>
+    suspend fun getCities(): List<City>
 
 }
