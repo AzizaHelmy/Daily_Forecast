@@ -1,7 +1,5 @@
 package com.example.dailyforecast.ui.screen
 
-import com.example.dailyforecast.data.source.local.model.CityEntity
-
 /**
  * Created by Aziza Helmy on 4/16/2024.
  */
@@ -10,9 +8,16 @@ data class HomeUiState(
     val isError: Boolean = false,
     val showSnackBar: Boolean = false,
     val weatherItems: List<WeatherItemUiState> = emptyList(),
-    val cities: List<CityEntity> = emptyList()
+    val cities: List<CityUiState> = emptyList(),
+    val selectedCity: String = ""
 )
-
+data class CityUiState(
+    val id: Int = 0,
+    val cityNameAr: String = "",
+    val cityNameEn: String = "",
+    val lat: Double = 0.0,
+    val lon: Double = 0.0
+)
 data class WeatherItemUiState(
     val city: String = "",
     val weatherDescription: String = "",

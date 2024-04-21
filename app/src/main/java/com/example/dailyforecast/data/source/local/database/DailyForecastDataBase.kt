@@ -9,7 +9,7 @@ import com.example.dailyforecast.data.source.local.model.WeatherItemEntity
 /**
  * Created by Aziza Helmy on 4/17/2024.
  */
-@Database(entities = [WeatherItemEntity::class], version = 1)
+@Database(entities = [WeatherItemEntity::class], version = 2)
 @TypeConverters(RoomConverter::class)
 abstract class DailyForecastDataBase : RoomDatabase() {
     abstract fun getDailyForecastDao(): DailyForecastDao

@@ -19,7 +19,7 @@ import com.example.dailyforecast.ui.screen.HomeInteractionListener
  * Created by Aziza Helmy on 4/19/2024.
  */
 @Composable
-fun ErrorAndRetry(listener: HomeInteractionListener) {
+fun ErrorAndRetry(listener: HomeInteractionListener,modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -28,12 +28,8 @@ fun ErrorAndRetry(listener: HomeInteractionListener) {
             .padding(top = 24.dp, bottom = 8.dp)
             .semantics { contentDescription = "errorAndRetry" }
     ) {
-        Text(
-            text = "Couldn't Fetch data",
-            modifier = Modifier.semantics { contentDescription = "errorText" })
-        Button(
-            onClick = { listener.onRetryClicked() },
-            modifier = Modifier.testTag("retryButton").semantics { contentDescription = "retryButton" }) {
+        Text(text = "Couldn't Fetch data", modifier = modifier.padding(top = 16.dp))
+        Button(modifier = Modifier.padding(8.dp), onClick = { listener.onRetryClicked() }) {
             Text(text = "Retry")
         }
     }

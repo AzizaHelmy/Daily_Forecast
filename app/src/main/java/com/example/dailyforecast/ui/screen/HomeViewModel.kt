@@ -3,9 +3,10 @@ package com.example.dailyforecast.ui.screen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.dailyforecast.data.entity.City
 import com.example.dailyforecast.data.entity.WeatherItem
 import com.example.dailyforecast.data.repository.DailyForecastRepository
-import com.example.dailyforecast.data.source.local.model.CityList
+import com.example.dailyforecast.data.utils.DailyForecastState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,35 +23,13 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
     val state = _state.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            getCities()
-            getCurrentWeather(lat = 30.0444, long = 31.2357) //todo:later ISA
-        }
+        getCities()
+        getDailyForecast(lat = 30.0444, long = 31.2357) //todo:later ISA
     }
 
-    private suspend fun <T> tryToExecute(
-        function: suspend () -> T,
-        onSuccess: suspend (T) -> Unit,
-        onError: suspend (String) -> Unit,
-        shouldLaunchInIODispatcher: Boolean = false
-    ) {
-        try {
-            if (shouldLaunchInIODispatcher) {
-                viewModelScope.launch(Dispatchers.IO) {
-                    val result = function()
-                    onSuccess(result)
-                }
-            } else {
-                val result = function()
-                onSuccess(result)
-            }
-        } catch (e: Exception) {
-            onError(e.message.toString())
-        }
-    }
 
-    suspend fun getCities() {
-        _state.update { it.copy(isLoading = true,isError = false) }
+     fun getCities() {
+        _state.update { it.copy(isLoading = true, isError = false) }
         tryToExecute(
             function = { repository.getCities() },
             onSuccess = ::onGetCitiesSuccess,
@@ -58,68 +37,94 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         )
     }
 
-    suspend fun getCurrentWeather(lat: Double, long: Double) {
-        _state.update { it.copy(isLoading = true,isError = false) }
+    private fun getDailyForecast(lat: Double, long: Double) {
+        _state.update { it.copy(isLoading = true, isError = false) }
         tryToExecute(
-            function = { repository.getWeatherFromRemote(lat, long) },
-            onSuccess = { dailyForecast ->
-                _state.update { it.copy(showSnackBar = false) }
-                repository.insertAllDailyForecastToDb(dailyForecast)
-                Log.e("TAG", "getCurrentWeather:yes remote ")
-                onGetCurrentWeatherSuccess(dailyForecast)
-            },
-            onError = {
-                tryToExecute(
-                    shouldLaunchInIODispatcher = true,
-                    function = { repository.getAllDailyForecastFromDb() },
-                    onSuccess = { weatherItems ->
-                        Log.e("TAG", "getCurrentWeather:yes Local ")
-                        _state.update { it.copy(showSnackBar = true) }
-                        onGetCurrentWeatherSuccess(weatherItems)
-                    },
-                    onError = ::onError
-                )
-            }
+            function = { repository.getDailyForecast(lat, long) },
+            onSuccess = ::onGetAllDailyForecastSuccess,
+            onError = ::onError
         )
     }
 
-    private fun onGetCurrentWeatherSuccess(dailyForecast: List<WeatherItem>) {
-        if (dailyForecast.isNotEmpty()) {
-            _state.update { uiState ->
-                uiState.copy(
-                    isLoading = false,
-                    weatherItems = dailyForecast.toUiState()
-                )
+    private fun onGetAllDailyForecastSuccess(weather: Pair<List<WeatherItem>, DailyForecastState>) {
+        val (dailyForecast, source) = weather
+        when (source) {
+            DailyForecastState.NETWORK -> {
+                _state.update {
+                    it.copy(
+                        showSnackBar = false,
+                        weatherItems = dailyForecast.toUiState(),
+                        isLoading = false,
+                        isError = false
+                    )
+                }
             }
-        } else {
-            _state.update { it.copy(isLoading = false, isError = true,showSnackBar = false) }
+
+            DailyForecastState.DATABASE -> {
+                if (dailyForecast.isNotEmpty()) {
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            isError = false,
+                            showSnackBar = true,
+                            weatherItems = dailyForecast.toUiState()
+                        )
+                    }
+
+                } else {
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            isError = true,
+                            showSnackBar = false,
+                            weatherItems = emptyList()
+                        )
+                    }
+                }
+            }
         }
     }
 
-    private fun onGetCitiesSuccess(cities: CityList) {
+    private fun onGetCitiesSuccess(cities: List<City>) {
         _state.update { uiState ->
             uiState.copy(
                 isLoading = false,
-                cities = cities.cities
+                cities = cities.map { it.toUiState() },
+                selectedCity = cities.first().cityNameEn
             )
         }
     }
 
     private fun onError(error: String) {
         Log.e("TAG", "onError:$error ")
-        _state.update { it.copy(isLoading = false, isError = true,showSnackBar = false) }
+        _state.update { it.copy(isLoading = false, isError = true, showSnackBar = false) }
     }
 
-    override fun onCitySelected(lat: Double, long: Double) {
-        viewModelScope.launch {
-            getCurrentWeather(lat = lat, long = long)
-        }
+    override fun onCitySelected(lat: Double, long: Double, cityName: String) {
+            getDailyForecast(lat = lat, long = long)
+            _state.update { it.copy(selectedCity = cityName) }
     }
 
     override fun onRetryClicked() {
         _state.update { it.copy(isLoading = true) }
-        viewModelScope.launch {
-            getCurrentWeather(lat = 30.0444, long = 31.2357) //todo:later ISA
+            getDailyForecast(lat = 30.0444, long = 31.2357) //todo:later ISA
+    }
+
+    /**
+     * This function is used to execute a suspend function and handle the success and error cases
+     */
+    private fun <T> tryToExecute(
+        function: suspend () -> T,
+        onSuccess: (T) -> Unit,
+        onError: (String) -> Unit,
+    ) {
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                val result = function()
+                onSuccess(result)
+            }
+        } catch (e: Exception) {
+            onError(e.message.toString())
         }
     }
 }

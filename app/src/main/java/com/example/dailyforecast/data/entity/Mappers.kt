@@ -9,7 +9,7 @@ import com.example.dailyforecast.data.source.local.model.WeatherItemEntity
  */
 fun WeatherItem.toLocalEntity(): WeatherItemEntity {
     return WeatherItemEntity(
-        main = main.toLocalEntity(),
+        weatherInfo = weatherInfo.toLocalEntity(),
         weather = weather.map { it.toLocalEntity() },
         cloud = cloud,
         windSpeed = windSpeed,
@@ -22,15 +22,15 @@ fun List<WeatherItem>.toLocalEntity(): List<WeatherItemEntity> {
 
 fun WeatherInfo.toLocalEntity(): WeatherInfoEntity {
     return WeatherInfoEntity(
-        temp = temp,
-        feelsLike = feelsLike,
-        tempMin = tempMin,
-        tempMax = tempMax,
+        temperature = temperature,
+        feelsTemperature = feelsTemperature,
+        minimTemperature = minimTemperature,
+        maximumTemperature = maximumTemperature,
         pressure = pressure,
         seaLevel = seaLevel,
-        grndLevel = grndLevel,
+        grandLevel = grandLevel,
         humidity = humidity,
-        tempKf = tempKf
+        kelvinTemperature = kelvinTemperature
     )
 }
 
@@ -41,5 +41,6 @@ fun Weather.toLocalEntity(): WeatherEntity {
         icon = icon
     )
 }
+
 
 

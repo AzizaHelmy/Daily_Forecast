@@ -23,6 +23,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.dailyforecast.R
 import com.example.dailyforecast.ui.screen.compsable.DropDown
 import com.example.dailyforecast.ui.screen.compsable.ErrorAndRetry
@@ -91,6 +92,7 @@ private fun HomeContent(state: HomeUiState, listener: HomeInteractionListener) {
         ) {
             Text(
                 text = " it’s not accurate data !",
+                fontSize = 18.sp, color = Color.White.copy(alpha = 0.5f)
             )
         }
     }
