@@ -3,9 +3,9 @@ package com.example.dailyforecast.ui.screen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.dailyforecast.data.entity.City
 import com.example.dailyforecast.data.entity.WeatherItem
 import com.example.dailyforecast.data.repository.DailyForecastRepository
-import com.example.dailyforecast.data.source.local.model.Cities
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -59,7 +59,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
     }
 
     private suspend fun getAllDailyForecast(lat: Double, long: Double) {
-        _state.update { it.copy(isLoading = true,isError = false) }
+        _state.update { it.copy(isLoading = true, isError = false) }
         tryToExecute(
             function = { repository.getDailyForecastFromNetwork(lat, long) },
             onSuccess = { dailyForecast ->
@@ -92,22 +92,22 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
                 )
             }
         } else {
-            _state.update { it.copy(isLoading = false, isError = true,showSnackBar = false) }
+            _state.update { it.copy(isLoading = false, isError = true, showSnackBar = false) }
         }
     }
 
-    private fun onGetCitiesSuccess(cities: Cities) {
+    private fun onGetCitiesSuccess(cities: List<City>) {
         _state.update { uiState ->
             uiState.copy(
                 isLoading = false,
-                cities = cities.cities
+                cities = cities.map { it.toUiState() }
             )
         }
     }
 
     private fun onError(error: String) {
         Log.e("TAG", "onError:$error ")
-        _state.update { it.copy(isLoading = false, isError = true,showSnackBar = false) }
+        _state.update { it.copy(isLoading = false, isError = true, showSnackBar = false) }
     }
 
     override fun onCitySelected(lat: Double, long: Double) {

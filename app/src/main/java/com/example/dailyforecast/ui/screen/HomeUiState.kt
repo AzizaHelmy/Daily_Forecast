@@ -10,7 +10,7 @@ data class HomeUiState(
     val isError: Boolean = false,
     val showSnackBar: Boolean = false,
     val weatherItems: List<WeatherItemUiState> = emptyList(),
-    val cities: List<CityEntity> = emptyList()
+    val cities: List<CityUiState> = emptyList()
 )
 data class CityUiState(
     val id: Int = 0,
