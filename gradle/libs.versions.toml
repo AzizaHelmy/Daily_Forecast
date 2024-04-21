@@ -1,6 +1,11 @@
 [versions]
 agp = "8.3.0"
+coreTesting = "2.2.0"
 gson = "2.10.1"
+junitJupiter = "5.8.1"
+koinTest = "3.4.3"
+koinTestJunit4 = "3.4.3"
+koinTestJunit5 = "3.2.2"
 kotlin = "1.9.0"
 coreKtx = "1.12.0"
 junit = "4.13.2"
@@ -9,6 +14,10 @@ espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.7.0"
 activityCompose = "1.8.2"
 composeBom = "2023.08.00"
+mockitoCore = "4.8.1"
+mockitoKotlin = "3.2.0"
+mockk = "1.12.0"
+mockwebserver = "4.9.1"
 okHttpVersion = "4.12.0"
 retrofitVersion = "2.9.0"
 roomVersion = "2.6.1"
@@ -16,10 +25,12 @@ koinVersion = "3.4.3"
 koinComposeVersion = "3.4.6"
 coilCompose = "2.5.0"
 coroutineVersion = "1.7.3"
+runner = "1.5.2"
 
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -34,8 +45,16 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junitJupiter" }
+koin-test = { module = "org.koin:koin-test", version.ref = "koinTest" }
+koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koinTestJunit4" }
+koin-test-junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koinTestJunit5" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutineVersion" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okHttpVersion" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "mockwebserver" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttpVersion" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinVersion" }
@@ -46,6 +65,7 @@ androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "ro
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofitVersion" }
+androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

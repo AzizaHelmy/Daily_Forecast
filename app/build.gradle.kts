@@ -15,7 +15,9 @@ val credentialsProperties = Properties().apply {
 android {
     namespace = "com.example.dailyforecast"
     compileSdk = 34
-
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
     defaultConfig {
         applicationId = "com.example.dailyforecast"
         minSdk = 24
@@ -33,6 +35,7 @@ android {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
         }
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -67,6 +70,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
@@ -79,6 +85,9 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.runner)
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -86,6 +95,26 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Local unit tests
+    testImplementation ("androidx.test:core:1.4.0")
+    testImplementation ("junit:junit:4.13.2")
+    testImplementation ("androidx.arch.core:core-testing:2.1.0")
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1")
+    testImplementation ("com.google.truth:truth:1.1.3")
+    testImplementation ("com.squareup.okhttp3:mockwebserver:4.9.1")
+    testImplementation ("io.mockk:mockk:1.10.5")
+    debugImplementation( "androidx.compose.ui:ui-test-manifest:1.1.0-alpha04")
+    androidTestImplementation (libs.androidx.core.testing)
+    testImplementation (libs.mockito.core)
+    testImplementation (libs.mockito.kotlin)
+
+
+    //Testing- junit5
+    testImplementation(libs.junit.jupiter)
+    //Koin Test
+    testImplementation (libs.koin.test.junit4)
+    androidTestImplementation (libs.koin.test.junit5)
     //koin
     api(libs.koin.core)
     implementation(libs.koin.compose)
