@@ -28,7 +28,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
     }
 
 
-    private fun getCities() {
+     fun getCities() {
         _state.update { it.copy(isLoading = true, isError = false) }
         tryToExecute(
             function = { repository.getCities() },

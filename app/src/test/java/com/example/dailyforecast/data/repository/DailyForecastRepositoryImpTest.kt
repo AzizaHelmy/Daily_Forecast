@@ -1,10 +1,9 @@
 package com.example.dailyforecast.data.repository
 
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.runner.AndroidJUnit4
 import com.example.dailyforecast.data.source.local.database.DailyForecastDao
 import com.example.dailyforecast.data.source.remote.network.DailyForecastService
+import com.example.dailyforecast.data.source.service.CityService
 import com.example.dailyforecast.di.dataBaseTestModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
@@ -22,13 +21,12 @@ import org.koin.test.inject
 @ExperimentalCoroutinesApi
 class DailyForecastRepositoryImpTest : KoinTest {
 
-    private lateinit var context: Context
+    private val cityService: CityService by inject()
     private val dailyForecastService: DailyForecastService by inject()
     private val diaDailyForecastLocalDb: DailyForecastDao by inject()
 
     @Before
     fun setUp() {
-        context = ApplicationProvider.getApplicationContext()
         loadKoinModules(dataBaseTestModule)
     }
     @After
