@@ -16,6 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.example.dailyforecast.ui.screen.HomeInteractionListener
 import com.example.dailyforecast.ui.screen.HomeUiState
@@ -56,8 +58,15 @@ fun DropDown(state: HomeUiState, listener: HomeInteractionListener) {
 
             ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
                 state.cities.forEachIndexed { index, text ->
-                    DropdownMenuItem(
-                        text = { Text(text = text.cityNameAr) },
+                    DropdownMenuItem( modifier = Modifier
+                        .semantics { contentDescription = "selectCity" }
+                        .fillMaxWidth(),
+                        text = {
+                            Text(text = text.cityNameAr, modifier = Modifier
+                                .semantics { contentDescription = "selectCity" }
+                                .fillMaxWidth()
+                            )
+                        },
                         onClick = {
                             listener.onCitySelected(
                                 state.cities[index].lat,
