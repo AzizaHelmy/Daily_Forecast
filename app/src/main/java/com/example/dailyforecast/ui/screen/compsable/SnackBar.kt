@@ -25,7 +25,7 @@ fun SnackBar(
     icon: Painter,
     modifier: Modifier = Modifier,
     isVisible: Boolean = true,
-    iconTint: Color = Color.Yellow,
+    iconTint: Color = Color.White,
     iconBackgroundColor: Color = Color.Transparent,
     content: @Composable () -> Unit,
 ) {
@@ -41,11 +41,11 @@ fun SnackBar(
                     .padding(horizontal =16.dp)
                     .border(
                         width = 1.dp,
-                        color = Color.DarkGray,
+                        color = Color.Transparent,
                         shape = RoundedCornerShape(size = 8.dp)
                     )
                     .background(
-                        color = Color.LightGray,
+                        color = Color.Red,
                         shape = RoundedCornerShape(size =8.dp)
                     )
                     .padding(horizontal =16.dp, vertical = 8.dp),

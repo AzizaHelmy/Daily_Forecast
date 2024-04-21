@@ -1,4 +1,4 @@
-package com.example.dailyforecast.data.source.remote.modle
+package com.example.dailyforecast.data.source.remote.model
 
 import com.google.gson.annotations.SerializedName
 

@@ -10,6 +10,7 @@ fun appModule() = module {
     includes(
         networkModule,
         dataBaseModule,
+        serviceModule,
         repositoryModule,
         viewModelModule
     )

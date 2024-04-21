@@ -1,4 +1,4 @@
-package com.example.dailyforecast
+package com.example.dailyforecast.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

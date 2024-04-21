@@ -27,9 +27,6 @@ import com.example.dailyforecast.ui.screen.HomeUiState
 @Composable
 fun DropDown(state: HomeUiState, listener: HomeInteractionListener) {
 
-    var selectedText by remember {
-        mutableStateOf(state.cities[0].cityNameAr)
-    }
     var isExpanded by remember {
         mutableStateOf(false)
     }
@@ -45,7 +42,7 @@ fun DropDown(state: HomeUiState, listener: HomeInteractionListener) {
 
             TextField(
                 modifier = Modifier.menuAnchor(),
-                value = selectedText,
+                value = state.selectedCity,
                 onValueChange = {},
                 readOnly = true,
                 trailingIcon = {
@@ -57,13 +54,13 @@ fun DropDown(state: HomeUiState, listener: HomeInteractionListener) {
             ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
                 state.cities.forEachIndexed { index, text ->
                     DropdownMenuItem(
-                        text = { Text(text = text.cityNameAr) },
+                        text = { Text(text = text.cityNameEn) },
                         onClick = {
                             listener.onCitySelected(
                                 state.cities[index].lat,
-                                state.cities[index].lon
+                                state.cities[index].lon,
+                                state.cities[index].cityNameEn
                             )
-                            selectedText = state.cities[index].cityNameAr
                             isExpanded = false
                         },
                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
