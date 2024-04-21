@@ -121,7 +121,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         onError: (String) -> Unit,
     ) {
         try {
-            viewModelScope.launch(Dispatchers.IO) {
+            viewModelScope.launch {
                 val result = function()
                 onSuccess(result)
             }
