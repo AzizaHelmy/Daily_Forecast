@@ -24,7 +24,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
 
     init {
         getCities()
-        getDailyForecast(lat = 30.0444, long = 31.2357) //todo:later ISA
+        getDailyForecast(lat = CAIRO_LATITUDE, long = CAIRO_LONGITUDE) //todo:it's not a best solution
     }
 
 
@@ -107,7 +107,7 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
 
     override fun onRetryClicked() {
         _state.update { it.copy(isLoading = true) }
-            getDailyForecast(lat = 30.0444, long = 31.2357) //todo:later ISA
+        getDailyForecast(lat = CAIRO_LATITUDE, long = CAIRO_LONGITUDE) //todo:it's not a best solution
     }
 
     /**
@@ -126,5 +126,9 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
         } catch (e: Exception) {
             onError(e.message.toString())
         }
+    }
+    companion object {
+        private const val CAIRO_LATITUDE =  30.0444
+        private const val CAIRO_LONGITUDE =  31.2357
     }
 }

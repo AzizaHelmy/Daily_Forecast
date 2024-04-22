@@ -22,7 +22,7 @@ data class WeatherItemUiState(
     val city: String = "",
     val weatherDescription: String = "",
     val temperature: String = "",
-    val weatherIcon: Int = 0,
+    val weatherIcon: String = "",
     val day: String = "",
     val windSpeed: String = ""
 )

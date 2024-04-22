@@ -12,12 +12,14 @@ fun List<WeatherItem>.toUiState(): List<WeatherItemUiState> {
         WeatherItemUiState(
             weatherDescription = weatherItem.weather.firstOrNull()?.description ?: "",
             temperature = "${weatherItem.weatherInfo.temperature}°C", // Assuming temperature is in Celsius
-            weatherIcon = 0, // You can map weather icon here if needed
+            weatherIcon = weatherItem.weather.firstOrNull()?.icon
+                ?: "",
             day = weatherItem.dateText, // Assuming dateText represents the day
             windSpeed = "${weatherItem.windSpeed} m/s" // Assuming wind speed is in meters per second
         )
     }
 }
+
 fun City.toUiState(): CityUiState {
     return CityUiState(
         id = id,
