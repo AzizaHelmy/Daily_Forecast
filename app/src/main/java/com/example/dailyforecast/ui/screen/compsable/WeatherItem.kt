@@ -54,6 +54,12 @@ fun WeatherItem(state: WeatherItemUiState) {
                     .semantics { contentDescription = "weatherIcon" }
             )
             Text(
+                text = state.day,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .semantics { contentDescription = "day" }
+            )
+            Text(
                 text = state.temperature,
                 modifier = Modifier
                     .padding(8.dp)

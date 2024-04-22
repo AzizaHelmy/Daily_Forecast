@@ -38,7 +38,8 @@ class DailyForecastRepositoryImp(
         long: Double
     ): List<WeatherItem>? {
         return try {
-            dailyForecastService.getDailyForecast(lat, long).toEntity()
+            val weatherItems = dailyForecastService.getDailyForecast(lat, long).toEntity()
+            return weatherItems.distinctBy { it.dateText }
         } catch (e: Exception) {
             null
         }
