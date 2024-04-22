@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.dailyforecast.ui.screen.HomeInteractionListener
 import com.example.dailyforecast.ui.screen.HomeUiState
+import com.example.dailyforecast.ui.theme.Typography
 
 /**
  * Created by Aziza Helmy on 4/19/2024.
@@ -42,6 +43,7 @@ fun DropDown(state: HomeUiState, listener: HomeInteractionListener) {
 
             TextField(
                 modifier = Modifier.menuAnchor(),
+                textStyle = Typography.titleLarge,
                 value = state.selectedCity,
                 onValueChange = {},
                 readOnly = true,
@@ -54,7 +56,12 @@ fun DropDown(state: HomeUiState, listener: HomeInteractionListener) {
             ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
                 state.cities.forEachIndexed { index, text ->
                     DropdownMenuItem(
-                        text = { Text(text = text.cityNameEn) },
+                        text = {
+                            Text(
+                                text = text.cityNameEn,
+                                style = Typography.titleLarge,
+                            )
+                        },
                         onClick = {
                             listener.onCitySelected(
                                 state.cities[index].lat,

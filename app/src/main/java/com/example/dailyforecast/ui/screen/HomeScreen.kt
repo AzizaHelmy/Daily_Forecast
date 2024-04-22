@@ -19,16 +19,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.dailyforecast.R
 import com.example.dailyforecast.ui.screen.compsable.DropDown
 import com.example.dailyforecast.ui.screen.compsable.ErrorAndRetry
 import com.example.dailyforecast.ui.screen.compsable.SnackBar
 import com.example.dailyforecast.ui.screen.compsable.WeatherItem
+import com.example.dailyforecast.ui.theme.Typography
 import org.koin.compose.koinInject
 
 
@@ -77,8 +77,8 @@ private fun HomeContent(state: HomeUiState, listener: HomeInteractionListener) {
                         }
                     }
                 } else {
-                    itemsIndexed(items = state.weatherItems) { _, user ->
-                        WeatherItem(user)
+                    itemsIndexed(items = state.weatherItems) { index, user ->
+                        WeatherItem(user, index = index)
                     }
                 }
             }
@@ -91,23 +91,10 @@ private fun HomeContent(state: HomeUiState, listener: HomeInteractionListener) {
                 .align(Alignment.BottomCenter)
         ) {
             Text(
-                text = " it’s not accurate data !",
-                fontSize = 18.sp, color = Color.White.copy(alpha = 0.5f)
+                text = stringResource(R.string.it_s_not_accurate_data),
+                style = Typography.titleLarge
+                , color = Color.White
             )
         }
     }
-}
-
-
-
-@Preview
-@Composable
-fun PreviewWeatherItem() {
-    WeatherItem(
-        state = WeatherItemUiState(
-            temperature = "40",
-            weatherDescription = "Clear Sky",
-            weatherIcon = 0
-        )
-    )
 }
