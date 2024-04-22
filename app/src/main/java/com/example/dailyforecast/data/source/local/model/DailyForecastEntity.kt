@@ -15,7 +15,9 @@ data class WeatherItemEntity(
     val weather: List<WeatherEntity>,
     val cloud: Int,
     val windSpeed: Double,
-    val dateText: String
+    val dateText: String,
+    val lat: Double,
+    val lon: Double
 )
 
 data class WeatherInfoEntity(

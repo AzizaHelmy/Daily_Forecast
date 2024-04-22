@@ -24,12 +24,15 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
 
     init {
         getCities()
-        getDailyForecast(lat = CAIRO_LATITUDE, long = CAIRO_LONGITUDE) //todo:it's not a best solution
+        getDailyForecast(
+            lat = CAIRO_LATITUDE,
+            long = CAIRO_LONGITUDE
+        ) //todo:it's not a best solution
     }
 
 
-     fun getCities() {
-        _state.update { it.copy(isLoading = true, isError = false) }
+    fun getCities() {
+        _state.update { it.copy(isError = false) }
         tryToExecute(
             function = { repository.getCities() },
             onSuccess = ::onGetCitiesSuccess,
@@ -101,13 +104,29 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
     }
 
     override fun onCitySelected(lat: Double, long: Double, cityName: String) {
-            getDailyForecast(lat = lat, long = long)
-            _state.update { it.copy(selectedCity = cityName) }
+        getDailyForecast(lat = lat, long = long)
+        _state.update {
+            it.copy(
+                isLoading = true,
+                selectedCity = cityName,
+                selectedCityLat = lat,
+                selectedCityLong = long
+            )
+        }
     }
 
     override fun onRetryClicked() {
-        _state.update { it.copy(isLoading = true) }
-        getDailyForecast(lat = CAIRO_LATITUDE, long = CAIRO_LONGITUDE) //todo:it's not a best solution
+        val lat = _state.value.selectedCityLat
+        val lon = _state.value.selectedCityLong
+        if (lat != 0.0 && lon != 0.0) {
+            getDailyForecast(lat = lat, long = lon)
+            _state.update { it.copy(isLoading = true) }
+        } else {
+            getDailyForecast(
+                lat = CAIRO_LATITUDE,
+                long = CAIRO_LONGITUDE
+            ) //todo:it's not a best solution
+        }
     }
 
     /**
@@ -127,8 +146,9 @@ class HomeViewModel(private val repository: DailyForecastRepository) : ViewModel
             onError(e.message.toString())
         }
     }
+
     companion object {
-        private const val CAIRO_LATITUDE =  30.0444
-        private const val CAIRO_LONGITUDE =  31.2357
+        private const val CAIRO_LATITUDE = 30.0444
+        private const val CAIRO_LONGITUDE = 31.2357
     }
 }

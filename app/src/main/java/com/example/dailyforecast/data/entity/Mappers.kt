@@ -13,7 +13,9 @@ fun WeatherItem.toLocalEntity(): WeatherItemEntity {
         weather = weather.map { it.toLocalEntity() },
         cloud = cloud,
         windSpeed = windSpeed,
-        dateText = dateText
+        dateText = dateText,
+        lat = lat,
+        lon = lon
     )
 }
 fun List<WeatherItem>.toLocalEntity(): List<WeatherItemEntity> {

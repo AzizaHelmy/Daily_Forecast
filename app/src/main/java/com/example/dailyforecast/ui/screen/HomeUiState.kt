@@ -9,7 +9,9 @@ data class HomeUiState(
     val showSnackBar: Boolean = false,
     val weatherItems: List<WeatherItemUiState> = emptyList(),
     val cities: List<CityUiState> = emptyList(),
-    val selectedCity: String = ""
+    val selectedCity: String = "",
+    val selectedCityLat: Double = 0.0,
+    val selectedCityLong: Double = 0.0
 )
 data class CityUiState(
     val id: Int = 0,

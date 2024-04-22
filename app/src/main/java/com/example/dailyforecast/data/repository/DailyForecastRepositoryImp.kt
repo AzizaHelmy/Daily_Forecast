@@ -28,7 +28,7 @@ class DailyForecastRepositoryImp(
             insertAllDailyForecastToLocal(networkWeather)
             Pair(networkWeather, DailyForecastState.NETWORK)
         } else {
-            val localWeather = getAllDailyForecastFromLocal()
+            val localWeather = getDailyForecastFromLocal(lat,long)
             Pair(localWeather, DailyForecastState.DATABASE)
         }
     }
@@ -51,8 +51,8 @@ class DailyForecastRepositoryImp(
         )
     }
 
-    override suspend fun getAllDailyForecastFromLocal(): List<WeatherItem> {
-        return diaDailyForecastLocalDb.getAllDailyForecastFromDb().toEntity()
+    override suspend fun getDailyForecastFromLocal(lat: Double, lon: Double): List<WeatherItem> {
+        return diaDailyForecastLocalDb.getDailyForecastFromDb(lat, lon).toEntity()
     }
 
     override suspend fun getCities(): List<City> {

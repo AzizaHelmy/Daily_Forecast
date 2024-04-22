@@ -14,7 +14,9 @@ fun WeatherItemEntity.toEntity(): WeatherItem {
         weather = weather.map { it.toEntity() },
         cloud =cloud,
         windSpeed = windSpeed,
-        dateText = dateText
+        dateText = dateText,
+        lat = lat,
+        lon = lon
     )
 }
 

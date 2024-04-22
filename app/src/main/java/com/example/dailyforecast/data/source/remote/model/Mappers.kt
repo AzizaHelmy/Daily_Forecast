@@ -11,16 +11,19 @@ import java.util.Locale
  */
 
 fun DailyForecastDto.toEntity(): List<WeatherItem> {
-    return weatherList.map { it.toEntity() }
+    val lat = city.location.lat
+    val lon = city.location.lon
+    return weatherList.map { it.toEntity(lat, lon) }
 }
-
-fun WeatherItemDto.toEntity(): WeatherItem {
+fun WeatherItemDto.toEntity(lat: Double, lon: Double): WeatherItem {
     return WeatherItem(
         weatherInfo = main.toEntity(),
         weather = weather.map { it.toEntity() },
         cloud = clouds.all,
         windSpeed = wind.speed,
-        dateText = formatDate(dateText)
+        dateText = formatDate(dateText),
+        lat = lat,
+        lon = lon
     )
 }
 /**
