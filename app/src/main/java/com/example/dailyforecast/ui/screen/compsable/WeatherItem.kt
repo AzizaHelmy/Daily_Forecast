@@ -55,7 +55,7 @@ fun WeatherItem(state: WeatherItemUiState, index: Int) {
 
                         else -> state.day
                     },
-                    style = Typography.bodyLarge,
+                    style = Typography.titleLarge,
                     modifier = Modifier
                         .semantics { contentDescription = "day" }
                 )
