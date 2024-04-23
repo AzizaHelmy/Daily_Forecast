@@ -26,7 +26,7 @@ represent this error and option to retry.
 
 
 ## Architecture 
-This project uses **MVVM (Model View View-Model)** with **Clean Architecture**.
+This project uses **MVVM (Model View View-Model).
 <div align="center">
 
 </div>
