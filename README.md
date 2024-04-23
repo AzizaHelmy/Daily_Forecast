@@ -3,6 +3,7 @@ Daily forecast application is a simple application consisting of only one screen
 with a top bar containing a dropdown menu , this dropdown menu contains cities
 names then when the user clicks the search the app hit api and get daily
 forecast data for given city name, and cache it.
+
 If a user faces any failure in data retrieval, the app first check if needed
 data exists in local cache. If yes app display cached data and show some
 warning to indicate it’s not accurate data, if no data cached he see UI
