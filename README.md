@@ -19,9 +19,9 @@ represent this error and option to retry.
    <img src="https://github.com/AzizaHelmy/Daily_Forecast/assets/31763341/bcb890a0-6638-4624-be64-0cf1315ded49" alt="Screenshot 3" width="200" style="border: 5px solid #ccc; border-radius: 15px;">
 </div>
 
-## Achivment 🎉🎉
+## Achivments 🎉🎉
 
-enjoy 🎉: https://wakatime.com/@aziza/projects/fdgiutzvmx?start=2024-04-17&end=2024-04-23
+enjoy: https://wakatime.com/@aziza/projects/fdgiutzvmx?start=2024-04-17&end=2024-04-23
 
 ## :rocket: Tech stack
 - [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
