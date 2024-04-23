@@ -11,10 +11,12 @@ represent this error and option to retry.
 
 ## Screenshots
 <div align="center">
- <img src="https://github.com/AzizaHelmy/Daily_Forecast/assets/31763341/1ac61445-24fe-445c-8d48-838323051770" alt="Screenshot 1" width="200" style="border: 5px solid #ccc; border-radius: 15px;">
-  <img src="https://github.com/AzizaHelmy/Daily_Forecast/assets/31763341/1ac61445-24fe-445c-8d48-838323051770" alt="Screenshot 2" width="200" style="border: 5px solid #ccc; border-radius: 15px;">
-  <img src="https://github.com/AzizaHelmy/Daily_Forecast/assets/31763341/1ac61445-24fe-445c-8d48-838323051770" alt="Screenshot 3" width="200" style="border: 5px solid #ccc; border-radius: 15px;">
-  <img src="https://github.com/AzizaHelmy/Daily_Forecast/assets/31763341/1ac61445-24fe-445c-8d48-838323051770" alt="Screenshot 3" width="200" style="border: 5px solid #ccc; border-radius: 15px;">
+ <img src="https://github.com/AzizaHelmy/Daily_Forecast/assets/31763341/4ce9cf09-d748-4a24-8159-0f43f3d2fe61" alt="Screenshot 1" width="200" style="border: 5px solid #ccc; border-radius: 15px;">
+  <img src="https://github.com/AzizaHelmy/Daily_Forecast/assets/31763341/7ef84154-f7b3-4171-a422-f2e8ba8897b0" alt="Screenshot 2" width="200" style="border: 5px solid #ccc; border-radius: 15px;">
+  <img src="https://github.com/AzizaHelmy/Daily_Forecast/assets/31763341/bc43b549-9514-4ad5-b667-0f3165e1ac93" alt="Screenshot 3" width="200" style="border: 5px solid #ccc; border-radius: 15px;">
+  <img src="https://github.com/AzizaHelmy/Daily_Forecast/assets/31763341/7565a40c-85aa-4092-a1b4-66713d868437" alt="Screenshot 3" width="200" style="border: 5px solid #ccc; border-radius: 15px;">
+  <img src="https://github.com/AzizaHelmy/Daily_Forecast/assets/31763341/79ac818a-2b6c-4588-b955-9fceb69508b2" alt="Screenshot 3" width="200" style="border: 5px solid #ccc; border-radius: 15px;">
+   <img src="https://github.com/AzizaHelmy/Daily_Forecast/assets/31763341/bcb890a0-6638-4624-be64-0cf1315ded49" alt="Screenshot 3" width="200" style="border: 5px solid #ccc; border-radius: 15px;">
 </div>
 
 ## :rocket: Tech stack
