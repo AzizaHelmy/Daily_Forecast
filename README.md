@@ -11,7 +11,10 @@ represent this error and option to retry.
 
 ## Screenshots
 <div align="center">
-
+ <img src="https://github.com/AzizaHelmy/Daily_Forecast/assets/31763341/1ac61445-24fe-445c-8d48-838323051770" alt="Screenshot 1" width="200" style="border: 5px solid #ccc; border-radius: 15px;">
+  <img src="https://github.com/AzizaHelmy/Daily_Forecast/assets/31763341/1ac61445-24fe-445c-8d48-838323051770" alt="Screenshot 2" width="200" style="border: 5px solid #ccc; border-radius: 15px;">
+  <img src="https://github.com/AzizaHelmy/Daily_Forecast/assets/31763341/1ac61445-24fe-445c-8d48-838323051770" alt="Screenshot 3" width="200" style="border: 5px solid #ccc; border-radius: 15px;">
+  <img src="https://github.com/AzizaHelmy/Daily_Forecast/assets/31763341/1ac61445-24fe-445c-8d48-838323051770" alt="Screenshot 3" width="200" style="border: 5px solid #ccc; border-radius: 15px;">
 </div>
 
 ## :rocket: Tech stack
