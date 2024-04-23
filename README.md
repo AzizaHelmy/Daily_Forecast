@@ -19,7 +19,7 @@ represent this error and option to retry.
    <img src="https://github.com/AzizaHelmy/Daily_Forecast/assets/31763341/bcb890a0-6638-4624-be64-0cf1315ded49" alt="Screenshot 3" width="200" style="border: 5px solid #ccc; border-radius: 15px;">
 </div>
 
-## :Achivment: 🎉🎉
+## Achivment 🎉🎉
 
 enjoy 🎉: https://wakatime.com/@aziza/projects/fdgiutzvmx?start=2024-04-17&end=2024-04-23
 
